@@ -1,4 +1,4 @@
-const statement = require('./statement');
+const { statement } = require('./statement');
 const plays = require('./plays.json');
 const invoices = require('./invoices.json');
 
