@@ -1,5 +1,5 @@
 class PerformanceCalculator {
-  get amount() {
+  get amount(): number | void {
     throw new Error('서브클래스에서 처리하도록 설계되었습니다.');
   }
 
@@ -7,10 +7,7 @@ class PerformanceCalculator {
     return Math.max(this.performance.audience - 30, 0);
   }
 
-  constructor(aPerformance, aPlay) {
-    this.performance = aPerformance;
-    this.play = aPlay;
-  }
+  constructor(public performance, public play) {}
 }
 
 class TragedyCalculator extends PerformanceCalculator {
@@ -49,8 +46,8 @@ function createPerformanceCalculator(aPerformance, aPlay) {
   }
 }
 
-function createStatementData(invoice, plays) {
-  const statementData = {};
+export default function createStatementData(invoice, plays) {
+  const statementData: any = {}; // FIXME: any
   statementData.customer = invoice.customer;
   statementData.performances = invoice.performances.map(enrichPerformance);
   statementData.totalAmount = totalAmount(statementData);
@@ -81,5 +78,3 @@ function createStatementData(invoice, plays) {
     return plays[aPerformance.playID];
   }
 }
-
-module.exports = createStatementData;

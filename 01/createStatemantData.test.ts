@@ -1,6 +1,6 @@
-const createStatemantData = require('./createStatemantData');
-const plays = require('./plays.json');
-const invoices = require('./invoices.json');
+import createStatemantData from './createStatemantData';
+import invoices from './invoices.json';
+import plays from './plays.json';
 
 test('연극 비용 책정', () => {
   expect(createStatemantData(invoices[0], plays)).toEqual({

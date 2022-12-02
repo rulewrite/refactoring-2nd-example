@@ -1,6 +1,6 @@
-const createStatementData = require('./createStatemantData');
+import createStatementData from './createStatemantData';
 
-function statement(invoice, plays) {
+export function statement(invoice, plays) {
   return renderPlainText(createStatementData(invoice, plays));
 }
 
@@ -14,7 +14,7 @@ function renderPlainText(data) {
   return result;
 }
 
-function htmlStatement(invoice, plays) {
+export function htmlStatement(invoice, plays) {
   return renderHtml(createStatementData(invoice, plays));
 }
 
@@ -40,8 +40,3 @@ function usd(aNumber) {
     minimumFractionDigits: 2,
   }).format(aNumber / 100);
 }
-
-module.exports = {
-  statement,
-  htmlStatement,
-};

@@ -1,6 +1,6 @@
-const { statement, htmlStatement } = require('./statement');
-const plays = require('./plays.json');
-const invoices = require('./invoices.json');
+import invoices from './invoices.json';
+import plays from './plays.json';
+import { htmlStatement, statement } from './statement';
 
 test('연극 비용 책정', () => {
   expect(statement(invoices[0], plays)).toBe(
