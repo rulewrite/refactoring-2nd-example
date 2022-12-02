@@ -50,16 +50,18 @@ export default function createStatementData(invoice, plays) {
   const statementData: any = {}; // FIXME: any
   statementData.customer = invoice.customer;
   statementData.performances = invoice.performances.map(enrichPerformance);
-  statementData.totalAmount = totalAmount(statementData);
-  statementData.totalVolumeCredits = totalVolumeCredits(statementData);
+  statementData.totalAmount = totalAmount(statementData.performances);
+  statementData.totalVolumeCredits = totalVolumeCredits(
+    statementData.performances
+  );
   return statementData;
 
-  function totalAmount(data) {
-    return data.performances.reduce((total, p) => total + p.amount, 0);
+  function totalAmount(performances) {
+    return performances.reduce((total, p) => total + p.amount, 0);
   }
 
-  function totalVolumeCredits(data) {
-    return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
+  function totalVolumeCredits(performances) {
+    return performances.reduce((total, p) => total + p.volumeCredits, 0);
   }
 
   function enrichPerformance(aPerformance) {
