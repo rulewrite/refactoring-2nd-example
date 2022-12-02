@@ -1,10 +1,11 @@
-const createStatementData = require('./createStatemantData');
+import createStatementData from './createStatemantData';
+import { Invoice, Plays, Statement } from './interface';
 
-function statement(invoice, plays) {
+export function statement(invoice: Invoice, plays: Plays) {
   return renderPlainText(createStatementData(invoice, plays));
 }
 
-function renderPlainText(data) {
+function renderPlainText(data: Statement) {
   let result = `청구 내역 (고객명: ${data.customer})\n`;
   for (let perf of data.performances) {
     result += `  ${perf.play.name}: ${usd(perf.amount)} (${perf.audience}석)\n`;
@@ -14,11 +15,11 @@ function renderPlainText(data) {
   return result;
 }
 
-function htmlStatement(invoice, plays) {
+export function htmlStatement(invoice: Invoice, plays: Plays) {
   return renderHtml(createStatementData(invoice, plays));
 }
 
-function renderHtml(data) {
+function renderHtml(data: Statement) {
   let result = `<h1>청구 내역 (고객명: ${data.customer})</hi>\n`;
   result += `<table>\n`;
   result += '<tr><th>연극</th><th>좌석 수</th><th>금액</th></tr>\n';
@@ -33,15 +34,10 @@ function renderHtml(data) {
   return result;
 }
 
-function usd(aNumber) {
+function usd(aNumber: number) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
   }).format(aNumber / 100);
 }
-
-module.exports = {
-  statement,
-  htmlStatement,
-};
