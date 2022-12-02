@@ -7,13 +7,22 @@ import {
   Statement,
 } from './interface';
 
+function getVolumeCredits(
+  calculator: PerformanceCalculator,
+  performance: Performance
+) {
+  const volumeCredits = Math.max(performance.audience - 30, 0);
+
+  if (calculator instanceof ComedyCalculator) {
+    return volumeCredits + Math.floor(performance.audience / 5);
+  }
+
+  return volumeCredits;
+}
+
 class PerformanceCalculator {
   get amount(): number | void {
     throw new Error('서브클래스에서 처리하도록 설계되었습니다.');
-  }
-
-  get volumeCredits() {
-    return Math.max(this.performance.audience - 30, 0);
   }
 
   constructor(protected performance: Performance) {}
@@ -27,6 +36,8 @@ class TragedyCalculator extends PerformanceCalculator {
     }
     return result;
   }
+
+  volumeCredits = getVolumeCredits(this, this.performance);
 }
 
 class ComedyCalculator extends PerformanceCalculator {
@@ -39,9 +50,7 @@ class ComedyCalculator extends PerformanceCalculator {
     return result;
   }
 
-  get volumeCredits() {
-    return super.volumeCredits + Math.floor(this.performance.audience / 5);
-  }
+  volumeCredits = getVolumeCredits(this, this.performance);
 }
 
 function createPerformanceCalculator(aPerformance: Performance, aPlay: Play) {
