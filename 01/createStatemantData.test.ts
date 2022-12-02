@@ -1,9 +1,10 @@
 import createStatemantData from './createStatemantData';
+import { Plays } from './interface';
 import invoices from './invoices.json';
 import plays from './plays.json';
 
 test('연극 비용 책정', () => {
-  expect(createStatemantData(invoices[0], plays)).toEqual({
+  expect(createStatemantData(invoices[0], plays as Plays)).toEqual({
     customer: 'BigCo',
     performances: [
       {

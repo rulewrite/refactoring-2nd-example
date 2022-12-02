@@ -1,15 +1,15 @@
-interface Performance {
+export interface Performance {
   playID: string;
   audience: number;
 }
 
-interface EnrichPerformance extends Performance {
+export interface EnrichPerformance extends Performance {
   play: Play;
   amount: number;
   volumeCredits: number;
 }
 
-interface Play {
+export interface Play {
   name: string;
   type: 'tragedy' | 'comedy';
 }

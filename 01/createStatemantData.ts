@@ -1,3 +1,12 @@
+import {
+  EnrichPerformance,
+  Invoice,
+  Performance,
+  Play,
+  Plays,
+  Statement,
+} from './interface';
+
 class PerformanceCalculator {
   get amount(): number | void {
     throw new Error('서브클래스에서 처리하도록 설계되었습니다.');
@@ -7,7 +16,7 @@ class PerformanceCalculator {
     return Math.max(this.performance.audience - 30, 0);
   }
 
-  constructor(public performance, public play) {}
+  constructor(protected performance: Performance, public play: Play) {}
 }
 
 class TragedyCalculator extends PerformanceCalculator {
@@ -35,7 +44,7 @@ class ComedyCalculator extends PerformanceCalculator {
   }
 }
 
-function createPerformanceCalculator(aPerformance, aPlay) {
+function createPerformanceCalculator(aPerformance: Performance, aPlay: Play) {
   switch (aPlay.type) {
     case 'tragedy':
       return new TragedyCalculator(aPerformance, aPlay);
@@ -46,37 +55,41 @@ function createPerformanceCalculator(aPerformance, aPlay) {
   }
 }
 
-export default function createStatementData(invoice, plays) {
-  const statementData: any = {}; // FIXME: any
-  statementData.customer = invoice.customer;
-  statementData.performances = invoice.performances.map(enrichPerformance);
-  statementData.totalAmount = totalAmount(statementData.performances);
-  statementData.totalVolumeCredits = totalVolumeCredits(
-    statementData.performances
-  );
-  return statementData;
+export default function createStatementData(
+  invoice: Invoice,
+  plays: Plays
+): Statement {
+  const performances = invoice.performances.map(enrichPerformance);
+  return {
+    customer: invoice.customer,
+    performances,
+    totalAmount: totalAmount(performances),
+    totalVolumeCredits: totalVolumeCredits(performances),
+  };
 
-  function totalAmount(performances) {
+  function totalAmount(performances: Array<EnrichPerformance>) {
     return performances.reduce((total, p) => total + p.amount, 0);
   }
 
-  function totalVolumeCredits(performances) {
+  function totalVolumeCredits(performances: Array<EnrichPerformance>) {
     return performances.reduce((total, p) => total + p.volumeCredits, 0);
   }
 
-  function enrichPerformance(aPerformance) {
+  function enrichPerformance(aPerformance: Performance): EnrichPerformance {
     const calculator = createPerformanceCalculator(
       aPerformance,
       playFor(aPerformance)
     );
-    const result = Object.assign({}, aPerformance); // 얕은 복사
-    result.play = calculator.play;
-    result.amount = calculator.amount;
-    result.volumeCredits = calculator.volumeCredits;
-    return result;
+
+    return {
+      ...aPerformance,
+      play: calculator.play,
+      amount: calculator.amount,
+      volumeCredits: calculator.volumeCredits,
+    };
   }
 
-  function playFor(aPerformance) {
+  function playFor(aPerformance: Performance) {
     return plays[aPerformance.playID];
   }
 }
