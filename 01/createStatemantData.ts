@@ -16,7 +16,7 @@ class PerformanceCalculator {
     return Math.max(this.performance.audience - 30, 0);
   }
 
-  constructor(protected performance: Performance, public play: Play) {}
+  constructor(protected performance: Performance) {}
 }
 
 class TragedyCalculator extends PerformanceCalculator {
@@ -47,9 +47,9 @@ class ComedyCalculator extends PerformanceCalculator {
 function createPerformanceCalculator(aPerformance: Performance, aPlay: Play) {
   switch (aPlay.type) {
     case 'tragedy':
-      return new TragedyCalculator(aPerformance, aPlay);
+      return new TragedyCalculator(aPerformance);
     case 'comedy':
-      return new ComedyCalculator(aPerformance, aPlay);
+      return new ComedyCalculator(aPerformance);
     default:
       throw new Error(`알 수 없는 장르: ${this.play.type}`);
   }
@@ -76,14 +76,12 @@ export default function createStatementData(
   }
 
   function enrichPerformance(aPerformance: Performance): EnrichPerformance {
-    const calculator = createPerformanceCalculator(
-      aPerformance,
-      playFor(aPerformance)
-    );
+    const play = playFor(aPerformance);
+    const calculator = createPerformanceCalculator(aPerformance, play);
 
     return {
       ...aPerformance,
-      play: calculator.play,
+      play,
       amount: calculator.amount,
       volumeCredits: calculator.volumeCredits,
     };
