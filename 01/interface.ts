@@ -3,10 +3,13 @@ export interface Performance {
   audience: number;
 }
 
-export interface EnrichPerformance extends Performance {
-  play: Play;
+export interface PerformanceCalculator {
   amount: number;
   volumeCredits: number;
+}
+
+export interface EnrichPerformance extends Performance, PerformanceCalculator {
+  play: Play;
 }
 
 export interface Play {

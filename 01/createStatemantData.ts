@@ -2,6 +2,7 @@ import {
   EnrichPerformance,
   Invoice,
   Performance,
+  PerformanceCalculator,
   Play,
   Plays,
   Statement,
@@ -20,15 +21,7 @@ function getVolumeCredits(
   return volumeCredits;
 }
 
-class PerformanceCalculator {
-  get amount(): number | void {
-    throw new Error('서브클래스에서 처리하도록 설계되었습니다.');
-  }
-
-  constructor(protected performance: Performance) {}
-}
-
-class TragedyCalculator extends PerformanceCalculator {
+class TragedyCalculator implements PerformanceCalculator {
   get amount() {
     let result = 40000;
     if (this.performance.audience > 30) {
@@ -38,9 +31,11 @@ class TragedyCalculator extends PerformanceCalculator {
   }
 
   volumeCredits = getVolumeCredits(this, this.performance);
+
+  constructor(private performance: Performance) {}
 }
 
-class ComedyCalculator extends PerformanceCalculator {
+class ComedyCalculator implements PerformanceCalculator {
   get amount() {
     let result = 30000;
     if (this.performance.audience > 20) {
@@ -51,6 +46,8 @@ class ComedyCalculator extends PerformanceCalculator {
   }
 
   volumeCredits = getVolumeCredits(this, this.performance);
+
+  constructor(private performance: Performance) {}
 }
 
 function createPerformanceCalculator(aPerformance: Performance, aPlay: Play) {
