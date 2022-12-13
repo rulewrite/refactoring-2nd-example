@@ -27,7 +27,8 @@ export default class Province {
     return this._demand;
   }
   set demand(arg: string | number) {
-    this._demand = parseInteger(arg);
+    const demand = parseInteger(arg);
+    this._demand = demand < 0 ? 0 : demand;
   }
 
   get price(): number {
