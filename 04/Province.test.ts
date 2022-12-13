@@ -18,4 +18,9 @@ describe('province', () => {
     const asis = new Province(sampleProvinceData());
     expect(asis.shortfall).toBe(5);
   });
+
+  test('profit', () => {
+    const asis = new Province(sampleProvinceData());
+    expect(asis.profit).toBe(230);
+  });
 });
