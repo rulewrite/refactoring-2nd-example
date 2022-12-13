@@ -40,3 +40,23 @@ describe('province', () => {
     expect(asis.profit).toBe(292);
   });
 });
+
+describe('no producers', () => {
+  let noProducers: Province;
+  beforeEach(() => {
+    noProducers = new Province({
+      name: 'No producers',
+      producers: [],
+      demand: 30,
+      price: 20,
+    });
+  });
+
+  test('shortfall', () => {
+    expect(noProducers.shortfall).toBe(30);
+  });
+
+  test('profit', () => {
+    expect(noProducers.profit).toBe(0);
+  });
+});
