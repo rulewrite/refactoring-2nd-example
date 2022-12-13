@@ -41,6 +41,31 @@ export default class Province {
     return this._demand - this._totalProduction;
   }
 
+  get profit() {
+    return this.demandValud - this.demandCost;
+  }
+
+  get demandValud() {
+    return this.satisfiedDemand * this.price;
+  }
+
+  get satisfiedDemand() {
+    return Math.min(this._demand, this.totalProduction);
+  }
+
+  get demandCost() {
+    let remainingDemand = this.demand;
+    let result = 0;
+    this.producers
+      .sort((a, b) => a.cost - b.cost)
+      .forEach((p) => {
+        const contribution = Math.min(remainingDemand, p.production);
+        remainingDemand -= contribution;
+        result += contribution * p.cost;
+      });
+    return result;
+  }
+
   constructor(doc: {
     name: string;
     demand: number;
