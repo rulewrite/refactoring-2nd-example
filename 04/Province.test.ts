@@ -33,4 +33,10 @@ describe('province', () => {
   test('profit', () => {
     expect(asis.profit).toBe(230);
   });
+
+  test('change production', () => {
+    asis.producers[0].production = 20;
+    expect(asis.shortfall).toBe(-6);
+    expect(asis.profit).toBe(292);
+  });
 });
