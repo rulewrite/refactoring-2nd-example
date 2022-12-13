@@ -37,6 +37,10 @@ export default class Province {
     this._price = parseInteger(arg);
   }
 
+  get shortfall() {
+    return this._demand - this._totalProduction;
+  }
+
   constructor(doc: {
     name: string;
     demand: number;
