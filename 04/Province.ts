@@ -3,7 +3,6 @@ import { parseInteger } from './util';
 
 export default class Province {
   private _producers: Array<Producer> = [];
-  private _totalProduction = 0;
   private _name: string;
   private _demand: number;
   private _price: number;
@@ -17,10 +16,9 @@ export default class Province {
   }
 
   get totalProduction() {
-    return this._totalProduction;
-  }
-  set totalProduction(arg: number) {
-    this._totalProduction = arg;
+    return this._producers.reduce((total, producer) => {
+      return total + producer.production;
+    }, 0);
   }
 
   get demand(): number {
@@ -39,7 +37,7 @@ export default class Province {
   }
 
   get shortfall() {
-    return this._demand - this._totalProduction;
+    return this._demand - this.totalProduction;
   }
 
   get profit() {
@@ -81,6 +79,5 @@ export default class Province {
 
   private addProducer(arg: Producer) {
     this._producers.push(arg);
-    this._totalProduction += arg.production;
   }
 }

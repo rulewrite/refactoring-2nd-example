@@ -29,9 +29,7 @@ export default class Producer {
   }
   set production(amountStr: string | number) {
     const amount = parseInteger(amountStr);
-    const newProduction = Number.isNaN(amount) ? 0 : amount;
-    this._province.totalProduction += newProduction - this._production;
-    this._production = newProduction;
+    this._production = Number.isNaN(amount) ? 0 : amount;
   }
 
   constructor(aProvince: Province, data: ProducerModel) {
