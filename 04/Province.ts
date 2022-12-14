@@ -74,7 +74,7 @@ export default class Province {
     this._name = doc.name;
     this._demand = doc.demand;
     this._price = doc.price;
-    doc.producers.forEach((d) => this.addProducer(new Producer(this, d)));
+    doc.producers.forEach((d) => this.addProducer(new Producer(d)));
   }
 
   private addProducer(arg: Producer) {

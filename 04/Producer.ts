@@ -1,4 +1,3 @@
-import Province from './Province';
 import { parseInteger } from './util';
 
 export interface ProducerModel {
@@ -8,7 +7,6 @@ export interface ProducerModel {
 }
 
 export default class Producer {
-  private _province: Province;
   private _cost: number;
   private _name: string;
   private _production: number;
@@ -32,8 +30,7 @@ export default class Producer {
     this._production = Number.isNaN(amount) ? 0 : amount;
   }
 
-  constructor(aProvince: Province, data: ProducerModel) {
-    this._province = aProvince;
+  constructor(data: ProducerModel) {
     this._cost = data.cost;
     this._name = data.name;
     this._production = data.production || 0;
